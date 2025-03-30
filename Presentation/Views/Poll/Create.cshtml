@@ -1,0 +1,66 @@
+﻿@model Presentation.Models.PollCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Poll";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">📝 Create a New Poll</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Title" class="form-control" placeholder="Poll Title" />
+                            <label asp-for="Title">Poll Title</label>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea asp-for="Description" class="form-control" placeholder="Poll Description" style="height: 100px;"></textarea>
+                            <label asp-for="Description">Description (Optional)</label>
+                            <small class="text-muted d-block mt-1">This will be shown on the index page to help explain what the poll is about.</small>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Option1Text" class="form-control" placeholder="Option 1" />
+                            <label asp-for="Option1Text">Option 1</label>
+                            <span asp-validation-for="Option1Text" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Option2Text" class="form-control" placeholder="Option 2" />
+                            <label asp-for="Option2Text">Option 2</label>
+                            <span asp-validation-for="Option2Text" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input asp-for="Option3Text" class="form-control" placeholder="Option 3 (Optional)" />
+                            <label asp-for="Option3Text">Option 3 (Optional)</label>
+                            <span asp-validation-for="Option3Text" class="text-danger"></span>
+                        </div>
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-dark w-100" onclick="window.location.href='/Poll/Index'">Back</button>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-dark w-100">Create Poll</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

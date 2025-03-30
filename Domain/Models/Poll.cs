@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -18,6 +19,8 @@ namespace Domain.Models
         [Required]
         public string Title { get; set; }
 
+        public string? Description { get; set; }
+
         [Required]
         public string Option1Text { get; set; }
 
@@ -31,6 +34,10 @@ namespace Domain.Models
         public string? Option3Text { get; set; }
 
         public int? Option3VotesCount { get; set; }
+
+        public string AuthorId { get; set; }
+
+        public IdentityUser Author { get; set; }
 
         [Required]
         public DateTime DateCreated { get; set; }

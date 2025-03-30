@@ -1,5 +1,6 @@
 ﻿using DataAccess.DataContext;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,13 @@ namespace DataAccess.Repositories
             _pollContext = pollContext;
         }
 
-        public void AddPoll(Poll poll)
+        public void CreatePoll(Poll poll)
         {
             _pollContext.Polls.Add(poll);
             _pollContext.SaveChanges();
         }
 
-        public bool UpdatePoll(Poll poll)
+        public bool UpdatePollDetails(Poll poll)
         {
 
             var pollToUpdate = GetPoll(poll.Id);
@@ -33,13 +34,35 @@ namespace DataAccess.Repositories
                 pollToUpdate.Option1Text = poll.Option1Text;
                 pollToUpdate.Option2Text = poll.Option2Text;
                 pollToUpdate.Option3Text = poll.Option3Text;
-                pollToUpdate.Option1VotesCount = poll.Option1VotesCount;
-                pollToUpdate.Option2VotesCount = poll.Option2VotesCount;
-                pollToUpdate.Option3VotesCount = poll.Option3VotesCount;
                 _pollContext.SaveChanges();
                 return true;
             }
 
+            return false;
+        }
+
+        public bool Vote(Guid pollId, int optionNumber)
+        {
+            var poll = GetPoll(pollId);
+            if (poll != null)
+            {
+                switch (optionNumber)
+                {
+                    case 1:
+                        poll.Option1VotesCount++;
+                        break;
+                    case 2:
+                        poll.Option2VotesCount++;
+                        break;
+                    case 3:
+                        poll.Option3VotesCount++;
+                        break;
+                    default:
+                        return false;
+                }
+                _pollContext.SaveChanges();
+                return true;
+            }
             return false;
         }
 
@@ -50,7 +73,7 @@ namespace DataAccess.Repositories
 
         public IQueryable<Poll> GetPolls()
         {
-            return _pollContext.Polls;
+            return _pollContext.Polls.Include(p => p.Author);
         }
 
         public void RemovePoll(Guid id)
