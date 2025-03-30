@@ -2,6 +2,7 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Presentation.Models;
 using System.Linq;
 
@@ -51,6 +52,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("/Poll/Vote")]
+        [PreventDuplicateVoteActionFilter]
         public IActionResult Vote(Guid pollId, [FromServices] PollRepository pollRepo)
         {
             var poll = pollRepo.GetPolls().FirstOrDefault(p => p.Id == pollId);

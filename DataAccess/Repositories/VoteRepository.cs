@@ -23,5 +23,10 @@ namespace DataAccess.Repositories
             _pollContext.SaveChanges();
         }
 
+        public bool HasUserVoted(Guid pollId, string userId)
+        {
+            return _pollContext.Votes.Any(v => v.PollId == pollId && v.UserId == userId);
+        }
+
     }
 }
