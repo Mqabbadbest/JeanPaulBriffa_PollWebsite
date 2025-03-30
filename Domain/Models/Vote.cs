@@ -9,7 +9,7 @@ namespace Domain.Models
     public class Vote
     {
         public Guid PollId { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public DateTime VotedAt { get; set; } = DateTime.Now;
     }

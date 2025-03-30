@@ -4,6 +4,7 @@ using DataAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    partial class PollContextModelSnapshot : ModelSnapshot
+    [Migration("20250330190337_Third-Migration_UpdatedPoll")]
+    partial class ThirdMigration_UpdatedPoll
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,11 +74,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.Models.Vote", b =>
                 {
-                    b.Property<string>("PollId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("PollId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("VotedAt")
                         .HasColumnType("datetime2");

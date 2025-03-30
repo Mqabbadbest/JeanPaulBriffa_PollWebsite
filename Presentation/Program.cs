@@ -1,4 +1,5 @@
 using DataAccess.DataContext;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,10 @@ namespace Presentation
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<PollDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<PollRepository>();
+            builder.Services.AddScoped<VoteRepository>();
+
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

@@ -1,0 +1,63 @@
+﻿@model Domain.Models.Poll
+
+@{
+    ViewData["Title"] = "Vote";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-dark">
+                <div class="card-header bg-dark text-white py-4">
+                    <h4 class="mb-2">@Model.Title</h4>
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <p class="mb-1 text-light">@Model.Description</p>
+                    }
+                    <small>Created by: <strong>@Model.Author?.Email</strong></small>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Vote" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="PollId" value="@Model.Id" />
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="SelectedOption" id="option1" value="1" required>
+                            <label class="form-check-label" for="option1">
+                                @Model.Option1Text
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="SelectedOption" id="option2" value="2">
+                            <label class="form-check-label" for="option2">
+                                @Model.Option2Text
+                            </label>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(Model.Option3Text))
+                        {
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="radio" name="SelectedOption" id="option3" value="3">
+                                <label class="form-check-label" for="option3">
+                                    @Model.Option3Text
+                                </label>
+                            </div>
+                        }
+
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-dark w-100" onclick="window.location.href='/Poll/Index'">Back</button>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-dark w-100">Submit Vote</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
