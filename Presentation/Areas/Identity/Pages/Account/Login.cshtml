@@ -53,7 +53,8 @@
                 icon: 'success',
                 title: 'Welcome back!',
                 text: 'You have successfully logged in.',
-                confirmButtonText: 'Continue'
+                showConfirmButton: false,
+                timer: 1500
             }).then(() => {
                 window.location.href = '@Url.Content("~/")';
             });

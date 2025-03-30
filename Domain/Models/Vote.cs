@@ -10,5 +10,7 @@ namespace Domain.Models
     {
         public Guid PollId { get; set; }
         public Guid UserId { get; set; }
+
+        public DateTime VotedAt { get; set; } = DateTime.Now;
     }
 }
