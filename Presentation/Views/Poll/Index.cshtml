@@ -33,10 +33,28 @@
                     </div>
                     <div class="mt-3 d-flex justify-content-between">
                         <a class="btn btn-primary btn-sm" href="/Poll/Vote?pollId=@poll.Id">🗳️ Vote</a>
-                        <a class="btn btn-outline-secondary btn-sm" href="#">📊 Results</a>
+                        <a class="btn btn-outline-secondary btn-sm"
+                           data-bs-toggle="modal"
+                           data-bs-target="#resultsModal-@poll.Id">
+                            📊 Results
+                        </a>
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="resultsModal-@poll.Id" tabindex="-1" aria-labelledby="resultsModalLabel-@poll.Id" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-dark">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title" id="resultsModalLabel-@poll.Id">📊 Results: @poll.Title</h5>
+                            <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <canvas id="chart-@poll.Id" class="w-100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     }
 </div>
@@ -53,3 +71,63 @@
         }
 </style>
 
+@section Scripts {
+    <script>
+        const initialisedCharts = new Set();
+        document.addEventListener("DOMContentLoaded", () => {
+            const polls = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Select(p => new
+            {
+                p.Id,
+                p.Option1Text,
+                p.Option2Text,
+                Option3Text = p.Option3Text ?? null,
+                p.Option1VotesCount,
+                p.Option2VotesCount,
+                Option3VotesCount = p.Option3VotesCount ?? 0
+            })))
+
+
+                polls.forEach(poll => {
+            const modal = document.getElementById(`resultsModal-${poll.Id}`);
+            modal.addEventListener('shown.bs.modal', () => {
+                console.log(`Chart initializing for: ${poll.Title}`);
+                const ctx = document.getElementById(`chart-${poll.Id}`);
+                if (initialisedCharts.has(poll.Id)) return;
+                initialisedCharts.add(poll.Id);
+
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: [poll.Option1Text, poll.Option2Text, ...(poll.Option3Text ? [poll.Option3Text] : [])],
+                        datasets: [{
+                            data: [poll.Option1VotesCount, poll.Option2VotesCount, ...(poll.Option3Text ? [poll.Option3VotesCount] : [])],
+                            backgroundColor: ['#0d6efd', '#198754', '#ffc107'],
+                            borderWidth: 1
+                        }]
+                    },
+                            options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                            return `${label}: ${value} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+                });
+            });
+        });
+
+        });
+    </script>
+}
