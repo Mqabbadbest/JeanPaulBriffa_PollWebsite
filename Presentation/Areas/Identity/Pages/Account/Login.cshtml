@@ -45,4 +45,18 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    @if (TempData["LoginSuccess"] == "true")
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Welcome back!',
+                text: 'You have successfully logged in.',
+                confirmButtonText: 'Continue'
+            }).then(() => {
+                window.location.href = '@Url.Content("~/")';
+            });
+        </script>
+    }
 }

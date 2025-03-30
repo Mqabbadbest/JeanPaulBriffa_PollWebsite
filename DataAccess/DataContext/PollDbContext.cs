@@ -5,9 +5,9 @@ using Domain.Models;
 
 namespace DataAccess.DataContext
 {
-    public class PollContext: IdentityDbContext<IdentityUser>
+    public class PollDbContext: IdentityDbContext<IdentityUser>
     {
-        public PollContext(DbContextOptions<PollContext> options) : base(options)
+        public PollDbContext(DbContextOptions<PollDbContext> options) : base(options)
         {
         }
         public DbSet<Poll> Polls { get; set; }

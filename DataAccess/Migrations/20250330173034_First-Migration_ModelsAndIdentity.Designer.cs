@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
-    [DbContext(typeof(PollContext))]
+    [DbContext(typeof(PollDbContext))]
     [Migration("20250330173034_First-Migration_ModelsAndIdentity")]
     partial class FirstMigration_ModelsAndIdentity
     {

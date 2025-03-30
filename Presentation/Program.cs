@@ -12,10 +12,10 @@ namespace Presentation
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException("Connection string not found");
-            builder.Services.AddDbContext<PollContext>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<PollDbContext>(options => options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<PollContext>();
+    .AddEntityFrameworkStores<PollDbContext>();
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 

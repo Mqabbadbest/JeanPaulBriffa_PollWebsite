@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.DataContext;
 
-public class PollContext : IdentityDbContext<IdentityUser>
+public class PollDbContext : IdentityDbContext<IdentityUser>
 {
-    public PollContext(DbContextOptions<PollContext> options)
+    public PollDbContext(DbContextOptions<PollDbContext> options)
         : base(options)
     {
     }
