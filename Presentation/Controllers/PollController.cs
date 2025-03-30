@@ -1,19 +1,32 @@
 ﻿using DataAccess.Repositories;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Presentation.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
     public class PollController : Controller
     {
         [HttpGet]
-        public IActionResult Index([FromServices] PollRepository pollRepo)
+        public async Task<IActionResult> Index([FromServices] IPollRepository pollRepo, [FromServices] UserManager<IdentityUser> userManager)
         {
+
             var polls = pollRepo.GetPolls().OrderByDescending(p => p.DateCreated);
+
+            if (pollRepo is PollFileRepository)
+            {
+                foreach(var poll in polls)
+                {
+                    poll.Author = await userManager.FindByIdAsync(poll.AuthorId);
+                }
+            }
+
+
             return View(polls);
         }
 
@@ -25,7 +38,7 @@ namespace Presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([FromServices] PollRepository pollRepo, [FromServices] UserManager<IdentityUser> userManager, PollCreateViewModel pollCreateViewModel)
+        public IActionResult Create([FromServices] IPollRepository pollRepo, [FromServices] UserManager<IdentityUser> userManager, PollCreateViewModel pollCreateViewModel)
         {
             if (ModelState.IsValid)
             {
