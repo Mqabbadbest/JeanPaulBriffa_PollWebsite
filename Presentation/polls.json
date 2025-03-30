@@ -1,0 +1,30 @@
+[
+  {
+    "Id": "44e12ef7-842e-4de5-ac3c-4154804bda8d",
+    "Title": "Best Team in Serie A",
+    "Description": "Who out of the current top 3 in Serie A is the best, according to you?",
+    "Option1Text": "Inter",
+    "Option1VotesCount": 0,
+    "Option2Text": "Napoli",
+    "Option2VotesCount": 0,
+    "Option3Text": "Atalanta",
+    "Option3VotesCount": 0,
+    "AuthorId": "75088153-29e5-4f39-8b57-85216fa3ad3f",
+    "Author": null,
+    "DateCreated": "2025-03-31T01:38:42.5722368+02:00"
+  },
+  {
+    "Id": "da37d6e4-67c0-4cb8-9754-e0e01d367361",
+    "Title": "Best Lord of the Rings movie",
+    "Description": "Which is the best movie from Peter Jackson's trilogy of movie adaptations of the Lord of the Rings?",
+    "Option1Text": "The Fellowship of the Ring",
+    "Option1VotesCount": 0,
+    "Option2Text": "The Two Towers",
+    "Option2VotesCount": 0,
+    "Option3Text": "The Return of the King",
+    "Option3VotesCount": 0,
+    "AuthorId": "db4a84b5-c77c-4d58-90a9-693745cc6a60",
+    "Author": null,
+    "DateCreated": "2025-03-31T01:40:31.291476+02:00"
+  }
+]

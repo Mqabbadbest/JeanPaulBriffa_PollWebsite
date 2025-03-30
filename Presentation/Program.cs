@@ -1,5 +1,6 @@
 using DataAccess.DataContext;
 using DataAccess.Repositories;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
@@ -23,8 +24,20 @@ namespace Presentation
             builder.Services.AddControllers();
             builder.Services.AddScoped<PollRepository>();
             builder.Services.AddScoped<VoteRepository>();
+            builder.Services.AddScoped<PollFileRepository>();
 
             builder.Services.AddRazorPages();
+
+            int pollsSetting = builder.Configuration.GetValue<int>("PollsSetting", 0);
+
+            if (pollsSetting == 0)
+            {
+                builder.Services.AddScoped<IPollRepository, PollRepository>();
+            }
+            else if(pollsSetting == 1)
+            {
+                builder.Services.AddScoped<IPollRepository, PollFileRepository>();
+            }
 
             var app = builder.Build();
 
