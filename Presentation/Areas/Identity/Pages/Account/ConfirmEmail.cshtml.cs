@@ -28,9 +28,22 @@ namespace Presentation.Areas.Identity.Pages.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessageConfirmEmail { get; set; }
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
+            var rawQuery = HttpContext.Request.QueryString.Value;
+            var userFromQuery = rawQuery.Split("&").FirstOrDefault(q => q.Contains("userId"));
+            var codeFromQuery = rawQuery.Split("&").FirstOrDefault(q => q.Contains("code"));
+            if (userFromQuery != null)
+            {
+                userId = userFromQuery.Split("=")[1];
+            }
+            if (codeFromQuery != null)
+            {
+                code = codeFromQuery.Split("=")[1];
+            }
+
+
             if (userId == null || code == null)
             {
                 return RedirectToPage("/Index");
@@ -44,7 +57,7 @@ namespace Presentation.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            StatusMessageConfirmEmail = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
             return Redirect("~/");
         }
     }

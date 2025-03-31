@@ -1,15 +1,15 @@
 ﻿using DataAccess.Repositories;
 using Domain.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Presentation.Models;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
+    [Authorize]
     public class PollController : Controller
     {
         [HttpGet]
@@ -53,12 +53,12 @@ namespace Presentation.Controllers
                     DateCreated = DateTime.Now
                 };
                 pollRepo.CreatePoll(poll);
-                TempData["PollCreationState"] = "true";
+                TempData["PollCreationState"] = "Poll Created Successfully!";
                 return RedirectToAction("Index");
             }
             else
             {
-                TempData["PollCreationState"] = "false";
+                TempData["PollCreationState"] = "Error Creating Poll";
 
                 return View(pollCreateViewModel);
             }
@@ -79,11 +79,13 @@ namespace Presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [PreventDuplicateVoteActionFilter]
         public IActionResult Vote(Guid pollId, int selectedOption, [FromServices] PollRepository pollRepo, [FromServices] VoteRepository voteRepo, [FromServices] UserManager<IdentityUser> userManager)
         {
             var poll = pollRepo.GetPoll(pollId);
             if (poll == null)
             {
+                TempData["VotingState"] = "Error getting poll!";
                 return RedirectToAction("Index");
             }
             pollRepo.Vote(pollId, selectedOption);
@@ -93,6 +95,8 @@ namespace Presentation.Controllers
                 UserId = userManager.GetUserId(User),
                 VotedAt = DateTime.Now
             });
+
+            TempData["VotingState"] = "Vote Successful!";
             return RedirectToAction("Index");
         }
     }

@@ -29,6 +29,7 @@ namespace Presentation.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
+                TempData["Logout"] = "Logged out.";
                 return LocalRedirect(returnUrl);
             }
             else

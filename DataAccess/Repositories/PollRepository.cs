@@ -76,17 +76,5 @@ namespace DataAccess.Repositories
         {
             return _pollContext.Polls.Include(p => p.Author);
         }
-
-        public void RemovePoll(Guid id)
-        {
-            var poll = GetPoll(id);
-            if (poll != null)
-            {
-
-                _pollContext.Polls.Remove(poll);
-                _pollContext.SaveChanges();
-
-            }
-        }
     }
 }
