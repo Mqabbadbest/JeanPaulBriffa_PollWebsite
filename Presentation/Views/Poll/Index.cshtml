@@ -48,9 +48,18 @@
                             <h5 class="modal-title" id="resultsModalLabel-@poll.Id">📊 Results: @poll.Title</h5>
                             <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <canvas id="chart-@poll.Id" class="w-100"></canvas>
-                        </div>
+                        @if (poll.Option1VotesCount != 0 || poll.Option2VotesCount != 0 || poll.Option3VotesCount != 0)
+                        {
+                            <div class="modal-body">
+                                <canvas id="chart-@poll.Id" class="w-100"></canvas>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="modal-body">
+                                <p class="text-center text-muted">No votes yet.</p>
+                            </div>
+                        }
                         <div class="modal-footer border-0">
                             <span class="text-dark">Total votes: <strong>@(poll.Option1VotesCount + poll.Option2VotesCount + (poll.Option3VotesCount ?? 0))</strong></span>
                         </div>
@@ -76,6 +85,7 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @if(TempData["VoteState"]?.ToString() == "duplicate")
     {
         <script>
@@ -88,7 +98,32 @@
             });
         </script>
     }
-
+    @if (TempData["PollCreationState"] != null)
+    {
+        var status = TempData["PollCreationState"]!.ToString();
+        var icon = status.Contains("Error") ? "error" : "success";
+        <script>
+            Swal.fire({
+            icon: '@icon',
+            title: '@status',
+            showConfirmButton: false,
+            timer: 1500
+            });
+        </script>
+    }
+    @if (TempData["VotingState"] != null)
+    {
+        var status = TempData["VotingState"]!.ToString();
+        var icon = status.Contains("Error") ? "error" : "success";
+        <script>
+            Swal.fire({
+            icon: '@icon',
+            title: '@status',
+            showConfirmButton: false,
+            timer: 1500
+            });
+        </script>
+    }
 
     <script>
         const initialisedCharts = new Set();

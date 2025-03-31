@@ -4,19 +4,42 @@
     ViewData["Title"] = "Register confirmation";
 }
 
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-        <p>
-            <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-        </p>
-    }
-    else
-    {
-        <p>
-            Please check your email to confirm your account.
-        </p>
-    }
-}
+<h1>@ViewData["Title"]</h1> 
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        @if (Model.DisplayConfirmAccountLink)
+        {
+            <text>
+                                     Swal.fire({
+                icon: 'info',
+                title: 'Confirm your account',
+                confirmButtonText: 'Confirm',
+                confirmButtonColor: '#28a745',
+                showConfirmButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed){
+                    window.location.href='@Model.EmailConfirmationUrl';
+                }
+            })
+
+            </text>
+        }
+        else
+        {
+            <text>
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Confirmation Email Sent',
+                            text: 'Please check your email to confirm your account.',
+                            confirmButtonText: 'OK'
+                        });
+            </text>
+        }
+        });
+    </script>
+}
