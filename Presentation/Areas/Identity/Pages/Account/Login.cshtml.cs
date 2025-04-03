@@ -115,7 +115,8 @@ namespace Presentation.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    TempData["LoginSuccess"] = "true";
+                    TempData["LoginSuccess"] = "You have successfully logged in!";
+                    return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -126,7 +127,7 @@ namespace Presentation.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                else if (TempData["LoginSuccess"] != "true")
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();

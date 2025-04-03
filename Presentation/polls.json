@@ -26,5 +26,61 @@
     "AuthorId": "db4a84b5-c77c-4d58-90a9-693745cc6a60",
     "Author": null,
     "DateCreated": "2025-03-31T01:40:31.291476+02:00"
+  },
+  {
+    "Id": "33e6b771-edbf-42fd-ae44-77f23b90e81e",
+    "Title": "Best Android Phone Manufacturer",
+    "Description": "Who, out of the big 3 Android Phone Manufacturers, is the best currently?",
+    "Option1Text": "Samsung",
+    "Option1VotesCount": 0,
+    "Option2Text": "Xiaomi",
+    "Option2VotesCount": 0,
+    "Option3Text": "OnePlus",
+    "Option3VotesCount": 0,
+    "AuthorId": "db4a84b5-c77c-4d58-90a9-693745cc6a60",
+    "Author": null,
+    "DateCreated": "2025-03-31T17:08:42.6020873+02:00"
+  },
+  {
+    "Id": "a70bfd98-ca8f-42e7-a771-e561e64a8704",
+    "Title": "Best Fantasy book series",
+    "Description": "Out of these hugely impactful and popular three Epic Fantasy series, which do you think is the best? ",
+    "Option1Text": "Lord of The Rings by J.R.R Tolkien",
+    "Option1VotesCount": 0,
+    "Option2Text": "A Song of Ice and Fire by George R.R. Martin",
+    "Option2VotesCount": 0,
+    "Option3Text": "Wheel of Time by Robert Jordan and Brandon Sanderson",
+    "Option3VotesCount": 0,
+    "AuthorId": "077d3c0d-1d41-4698-ae0e-fdacc8630278",
+    "Author": null,
+    "DateCreated": "2025-03-31T17:14:47.6280053+02:00"
+  },
+  {
+    "Id": "63ba32b0-4ca0-4cb8-be41-7eb0f2deae2d",
+    "Title": "Best Original Star Wars Movie",
+    "Description": null,
+    "Option1Text": "A New Hope",
+    "Option1VotesCount": 0,
+    "Option2Text": "Empire Strikes Back",
+    "Option2VotesCount": 0,
+    "Option3Text": "Return of the Jedi",
+    "Option3VotesCount": 0,
+    "AuthorId": "9634c49f-fd89-439c-9673-e47148e3e74f",
+    "Author": null,
+    "DateCreated": "2025-03-31T17:26:21.0168844+02:00"
+  },
+  {
+    "Id": "e414dd3e-ca6e-4f93-8d72-585680d710aa",
+    "Title": "Do you read non-fiction?",
+    "Description": "A poll to check how many readers, read non-fiction.",
+    "Option1Text": "Yes",
+    "Option1VotesCount": 0,
+    "Option2Text": "No",
+    "Option2VotesCount": 0,
+    "Option3Text": null,
+    "Option3VotesCount": 0,
+    "AuthorId": "db4a84b5-c77c-4d58-90a9-693745cc6a60",
+    "Author": null,
+    "DateCreated": "2025-04-03T21:49:06.5677793+02:00"
   }
 ]

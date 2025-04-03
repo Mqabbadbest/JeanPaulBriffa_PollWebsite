@@ -2,11 +2,6 @@
 using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
@@ -19,29 +14,35 @@ namespace DataAccess.Repositories
             _pollContext = pollContext;
         }
 
-        public void CreatePoll(Poll poll)
+        /// <summary>
+        /// This method creates a new poll in the database.
+        /// It checks if the poll is not null, adds it to the context, and saves the changes, and then returns true.
+        /// Otherwise, it returns false.
+        /// </summary>
+        /// <param name="poll">The poll that is to be saved.</param>
+        /// <returns>State of the poll creation</returns>
+        public bool CreatePoll(Poll poll)
         {
-            _pollContext.Polls.Add(poll);
-            _pollContext.SaveChanges();
-        }
-
-        public bool UpdatePollDetails(Poll poll)
-        {
-
-            var pollToUpdate = GetPoll(poll.Id);
-            if (pollToUpdate != null)
+            if (poll != null)
             {
-                pollToUpdate.Title = poll.Title;
-                pollToUpdate.Option1Text = poll.Option1Text;
-                pollToUpdate.Option2Text = poll.Option2Text;
-                pollToUpdate.Option3Text = poll.Option3Text;
+                _pollContext.Polls.Add(poll);
                 _pollContext.SaveChanges();
                 return true;
             }
-
             return false;
         }
 
+        /// <summary>
+        /// This method will register a vote for the poll with the given pollId.
+        /// It attempts to find the poll in the database.
+        /// Checks that it is truly a poll and not null.
+        /// Then it checks the option number and increments the corresponding vote count.
+        /// It saves the changes to the database and returns true.
+        /// Otherwise, it returns false.
+        /// </summary>
+        /// <param name="pollId"></param>
+        /// <param name="optionNumber"></param>
+        /// <returns></returns>
         public bool Vote(Guid pollId, int optionNumber)
         {
             var poll = GetPoll(pollId);
@@ -67,11 +68,21 @@ namespace DataAccess.Repositories
             return false;
         }
 
+        /// <summary>
+        /// This method gets a poll from the database by its Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The poll that has the given id</returns>
         public Poll? GetPoll(Guid id)
         {
             return _pollContext.Polls.FirstOrDefault(p => p.Id == id);
         }
 
+        /// <summary>
+        /// This method gets all the polls from the database.
+        /// The polls are returned as an IQueryable, to ensure efficiency and flexibility.
+        /// </summary>
+        /// <returns>An IQueryable list of polls</returns>
         public IQueryable<Poll> GetPolls()
         {
             return _pollContext.Polls.Include(p => p.Author);

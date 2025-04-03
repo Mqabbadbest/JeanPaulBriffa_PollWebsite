@@ -1,14 +1,8 @@
 ﻿using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
@@ -17,6 +11,14 @@ namespace DataAccess.Repositories
 
         private string _fileName;
 
+        /// <summary>
+        /// This constructor initializes the PollFileRepository with the configuration and environment.
+        /// It gets the file name from the configuration.
+        /// Then it checks if the file exists, if not it creates it with an empty JSON array, and saves the file in the root directory of the project.
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="env"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public PollFileRepository(IConfiguration configuration, IWebHostEnvironment env)
         {
             var fileNameFromConfigFile = configuration["PollsFileName"];
@@ -29,19 +31,36 @@ namespace DataAccess.Repositories
 
             if (!System.IO.File.Exists(_fileName))
             {
-                System.IO.File.WriteAllText(_fileName, "[]"); // empty JSON array
+                System.IO.File.WriteAllText(_fileName, "[]");
             }
         }
 
-        public void CreatePoll(Poll poll)
+        /// <summary>
+        /// This method creates a new poll in the polls.json file.
+        /// It first finds all the polls in the file, adds the new poll to the list, and then saves the list back to the file.
+        /// </summary>
+        /// <param name="poll">The Poll object that is to be saved to polls.json</param>
+        public bool CreatePoll(Poll poll)
         {
+            if (poll == null)
+            {
+                return false;
+            }
+
             var polls = GetPolls().ToList();
             poll.Id = Guid.NewGuid();
             polls.Add(poll);
             string json = JsonConvert.SerializeObject(polls);
             System.IO.File.WriteAllText(_fileName, json);
+            return true;
         }
 
+        /// <summary>
+        /// This method gets all the polls from the polls.json file.
+        /// If there are no polls, it returns an empty list.
+        /// Otherwise, it deserializes the JSON file into a list of Poll objects and returns it as an IQueryable.
+        /// </summary>
+        /// <returns>The List of polls retrieved from polls.json</returns>
         public IQueryable<Poll> GetPolls()
         {
             if (!System.IO.File.Exists(_fileName))

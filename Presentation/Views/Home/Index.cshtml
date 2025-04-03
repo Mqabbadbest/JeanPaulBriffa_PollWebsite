@@ -16,7 +16,7 @@
                 </p>
 
                 <div class="d-flex justify-content-center gap-3 mt-4">
-                    <a class="btn btn-dark btn-lg custom-input" href="/Poll">Browse Polls</a>
+                    <a class="btn btn-dark btn-lg custom-input" href="/Poll/Index">Browse Polls</a>
                     <a class="btn btn-outline-dark btn-lg custom-input" href="/Poll/Create">Create a Poll</a>
                 </div>
             </div>
@@ -48,21 +48,4 @@
             }
     </style>
 
-
-
-    @if (TempData["StatusMessageConfirmEmail"] != null)
-    {
-        var status = TempData["StatusMessageConfirmEmail"]!.ToString();
-        var icon = status.Contains("Error") ? "warning" : "success";
-        var text = icon == "success" ? "Do not forget to Login!" : "";
-        <script>
-            Swal.fire({
-                icon: '@icon',
-                title: '@status',
-                text: '@text',
-                showConfirmButton: false,
-                timer: 2500
-            });
-        </script>
-    }
 }

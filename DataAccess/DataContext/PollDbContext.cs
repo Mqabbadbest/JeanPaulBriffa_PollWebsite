@@ -13,6 +13,10 @@ namespace DataAccess.DataContext
         public DbSet<Poll> Polls { get; set; }
         public DbSet<Vote> Votes { get; set; }
 
+        /// <summary>
+        /// This method is making sure that the Vote entity has a composite key of PollId and UserId.
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Vote>()
