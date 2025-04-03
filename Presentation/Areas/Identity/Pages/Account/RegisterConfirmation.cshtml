@@ -4,10 +4,7 @@
     ViewData["Title"] = "Register confirmation";
 }
 
-<h1>@ViewData["Title"]</h1> 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
         @if (Model.DisplayConfirmAccountLink)
@@ -24,6 +21,8 @@
             }).then((result) => {
                 if (result.isConfirmed){
                     window.location.href='@Model.EmailConfirmationUrl';
+                } else {
+                    window.location.href='/'
                 }
             })
 

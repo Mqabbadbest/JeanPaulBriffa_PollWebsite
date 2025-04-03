@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IPollRepository
     {
-        void CreatePoll(Poll poll);
+        bool CreatePoll(Poll poll);
         IQueryable<Poll> GetPolls();
     }
 }
