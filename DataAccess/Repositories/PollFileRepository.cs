@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace DataAccess.Repositories
 {
+    /// <summary>
+    /// To be able to use this repository change the PollsSetting in appsettings.json to 1, otherwise it will use the database.
+    /// </summary>
     public class PollFileRepository : IPollRepository
     {
 
