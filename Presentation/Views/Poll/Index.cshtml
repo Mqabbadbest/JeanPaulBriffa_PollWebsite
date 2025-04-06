@@ -88,6 +88,7 @@
 
     @if (TempData["VoteState"]?.ToString() == "duplicate")
     {
+        TempData.Remove("VoteState");
         <script>
             Swal.fire({
             icon: 'warning',
@@ -101,6 +102,7 @@
     @if (TempData["PollCreationState"] != null)
     {
         var status = TempData["PollCreationState"]!.ToString();
+        TempData.Remove("PollCreationState");
         var icon = status.Contains("Error") ? "error" : "success";
         <script>
             Swal.fire({
@@ -114,6 +116,7 @@
     @if (TempData["VotingState"] != null)
     {
         var status = TempData["VotingState"]!.ToString();
+        TempData.Remove("VotingState");
         var icon = status.Contains("Error") ? "error" : "success";
         <script>
             Swal.fire({

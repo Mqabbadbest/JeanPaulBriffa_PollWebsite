@@ -25,9 +25,9 @@ namespace Presentation.Controllers
 
             var polls = pollRepo.GetPolls().OrderByDescending(p => p.DateCreated);
 
-            //If the PollRepository is PollFileRepository, we need to get the Author of the poll from the UserManager.
+            //If the IPollRepository is PollFileRepository, we need to get the Author of the poll from the UserManager.
             //As the Author is not stored in the polls.json file.
-            //To make sure that this call is efficient and doesn't make multiple calls, I get all the dstinct AuthorIds from the polls and get all the users with those Ids.
+            //To make sure that this call is efficient and doesn't make multiple calls, I get all the distinct AuthorIds from the polls and get all the users with those Ids.
             //Then give the Author to the polls based on the AuthorId.
             //This way I only make one call to the database to get all the users with the AuthorIds.
             if (pollRepo is PollFileRepository)

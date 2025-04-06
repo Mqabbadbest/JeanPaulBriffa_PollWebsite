@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Presentation.ActionFilters
 {
@@ -28,16 +27,16 @@ namespace Presentation.ActionFilters
                 context.Result = new ForbidResult();
             }
 
+            var pollId = context.ActionArguments["pollId"] as Guid?;
+
             //Checking if the user has already voted for the poll
-            if (context.ActionArguments.TryGetValue("pollId", out var pollIdObj) && pollIdObj is Guid pollId)
+            if (pollId.HasValue && voteRepo.HasUserVoted(pollId.Value, userId))
             {
-                if (voteRepo.HasUserVoted(pollId, userId))
-                {
-                    var controller = context.Controller as Controller;
-                    controller.TempData.Add("VoteState", "duplicate");
-                    context.Result = new RedirectToActionResult("Index", "Poll", null);
-                }
+                var controller = context.Controller as Controller;
+                controller.TempData.Add("VoteState", "duplicate");
+                context.Result = new RedirectToActionResult("Index", "Poll", null);
             }
+
 
             base.OnActionExecuting(context);
         }

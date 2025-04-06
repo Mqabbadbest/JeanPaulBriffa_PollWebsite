@@ -48,46 +48,46 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("Logout script loaded");
+            const logoutBtn = document.getElementById("logout");
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You will be logged out.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#28a745',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, logout',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById("logoutForm").submit();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log("Logout script loaded");
-        const logoutBtn = document.getElementById("logout");
-
-        if (logoutBtn) {
-            logoutBtn.addEventListener("click", (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You will be logged out.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#28a745',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, logout',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("logoutForm").submit();
-                    }
-                });
-            });
-        }
-    });
-</script>
 
 @if (TempData["Logout"] != null)
 {
-    var status = TempData["Logout"]!.ToString();
-    var icon = status.Contains("Error") ? "error" : "success";
+    var logoutStatus = TempData["Logout"]!.ToString();
+    var icon = logoutStatus.Contains("Error") ? "error" : "success";
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             Swal.fire({
                 icon: '@icon',
-                title: '@status',
+                title: '@logoutStatus',
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -95,28 +95,31 @@
     </script>
 }
 
-@if (TempData["StatusMessageConfirmEmail"] != null)
+@if (TempData["StatusMessageConfirmEmail"] is string status)
 {
-    var status = TempData["StatusMessageConfirmEmail"]!.ToString();
-    TempData.Remove("StatusMessageConfirmEmail");
     var icon = status.Contains("Error") ? "warning" : "success";
     var text = icon == "success" ? "Do not forget to Login!" : "";
+
     <script>
-        Swal.fire({
-            icon: '@icon',
-            title: '@status',
-            text: '@text',
-            showConfirmButton: false,
-            timer: 2500
+        document.addEventListener("DOMContentLoaded", () => {
+            Swal.fire({
+                icon: '@icon',
+                title: '@status',
+                text: '@text',
+                showConfirmButton: true,
+                confirmButtonColor: '#28a745'
+            });
         });
+
     </script>
 }
+
 
 @if (TempData["LoginSuccess"] != null)
 {
     var text = TempData["LoginSuccess"]?.ToString();
     TempData.Remove("LoginSuccess");
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             Swal.fire({

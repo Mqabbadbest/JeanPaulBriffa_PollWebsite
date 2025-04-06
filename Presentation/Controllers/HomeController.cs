@@ -13,6 +13,7 @@ namespace Presentation.Controllers
             _logger = logger;
         }
 
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult Index()
         {
             return View();
@@ -20,13 +21,13 @@ namespace Presentation.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return RedirectToAction("Index");
         }
     }
 }
